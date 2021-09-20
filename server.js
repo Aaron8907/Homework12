@@ -22,7 +22,6 @@ app.use(express.json());
         'Add a Department',
         'Add a Role',
         'Add an Employee',
-        'Update an Employee Role',
               ]
               }).then((function (answer) {
                   switch (answer.request) 
@@ -45,9 +44,6 @@ app.use(express.json());
                      case 'Add an Employee':
                            addEmployee();
                            break;
-                      case 'Update Employee Role':
-                          updateRole();
-                          break;
                       default:
                           break;
                   }
@@ -64,7 +60,7 @@ function viewDepartments() {
 
 function viewRoles() {
   db.query(
-    'SELECT roles.title AS Title, roles.salary AS Salary, department.name AS Department FROM roles JOIN department ON roles.department= department.id', function(err, results) {
+    'SELECT roles.id,  roles.title AS Title, roles.salary AS Salary, department.name AS Department FROM roles JOIN department ON roles.department= department.id', function(err, results) {
       console.table(results); 
     }
   );
@@ -95,7 +91,7 @@ function addDepartment() {
           console.log('Your department has been added!');
           db.query(
             'SELECT * FROM department', function(err, results) {
-              console.log(results);
+              console.table(results);
           })
       })
 };
@@ -129,7 +125,7 @@ function addRole() {
               });
           console.log('Your role has been added!');
           db.query(
-            'SELECT roles.title AS Title, roles.salary AS Salary, department.name AS Department FROM roles JOIN department ON roles.department= department.id', function(err, results) {
+            'SELECT roles.id,  roles.title AS Title, roles.salary AS Salary, department.name AS Department FROM roles JOIN department ON roles.department= department.id', function(err, results) {
               console.table(results);
           })
       })
@@ -170,7 +166,7 @@ function addEmployee() {
               });
           console.log('Your role has been added!');
           db.query(
-            'SELECT employee.firstName AS firstName, employee.lastName AS lastName, roles.title AS Title, roles.salary AS Salary,employee.managerID as managerID, roles.department AS department FROM employee JOIN roles ON employee.roles= roles.id ', function(err, results) {
+            'SELECT employee.id, employee.firstName AS firstName, employee.lastName AS lastName, roles.title AS Title, roles.salary AS Salary,employee.managerID as managerID, roles.department AS department FROM employee JOIN roles ON employee.roles= roles.id ', function(err, results) {
               console.table(results);
           })
       })
